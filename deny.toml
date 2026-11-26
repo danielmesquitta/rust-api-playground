@@ -1,0 +1,50 @@
+# cargo-deny configuration: https://embarkstudios.github.io/cargo-deny/
+# Run locally with `make deny`.
+
+[graph]
+all-features = true
+
+[advisories]
+# RustSec advisories: vulnerabilities and unmaintained crates fail the check; yanked
+# versions only warn, since a yank is often not a security issue.
+db-urls = ["https://github.com/rustsec/advisory-db"]
+unmaintained = "all"
+yanked = "warn"
+ignore = [
+    # Remove once testcontainers drops this crate. cargo-deny warns when an ignored
+    # advisory no longer matches anything, so a stale entry will show up.
+    { id = "RUSTSEC-2026-0440", reason = "astral-tokio-tar is unmaintained (not a vulnerability); it is only pulled in by testcontainers, a dev-dependency, and no release of testcontainers or testcontainers-modules avoids it yet" },
+]
+
+[licenses]
+# Permissive licenses only. Every crate in the tree that also offers LGPL-2.1 offers MIT
+# or Apache-2.0 too, so no copyleft license needs to be allowed.
+allow = [
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "CC0-1.0",
+    "MIT",
+    "MIT-0",
+    "Unicode-3.0",
+    "Unlicense",
+    "Zlib",
+]
+confidence-threshold = 0.9
+
+[licenses.private]
+# This crate sets `publish = false`, so its own license is not checked.
+ignore = true
+
+[bans]
+# Duplicate versions are common in an async/HTTP tree (e.g. base64, hashbrown, syn);
+# report them without failing.
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
