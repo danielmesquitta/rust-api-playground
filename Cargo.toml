@@ -2,8 +2,9 @@
 name = "rust-api-playground"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.88"
+rust-version = "1.94"
 license = "MIT"
+publish = false
 
 # BeautifulRust drop-in lints
 #
@@ -83,7 +84,6 @@ enum_glob_use = "allow"           # use Enum::* inside a function that matches o
 anyhow = "1.0.105"
 axum = { version = "0.8.9", features = ["macros"] }
 serde = { version = "1.0.229", features = ["derive"] }
-serde_json = "1.0.154"
 sqlx = { version = "0.9.1", default-features = false, features = ["postgres", "runtime-tokio", "migrate", "macros", "time"] }
 thiserror = "2.0.21"
 time = { version = "0.3.55", features = ["serde", "formatting", "parsing"] }
@@ -98,4 +98,5 @@ utoipa-swagger-ui = { version = "10.0.2", features = ["axum", "vendored"] }
 [dev-dependencies]
 reqwest = { version = "0.13.5", default-features = false, features = ["json"] }
 rstest = "0.29.0"
+serde_json = "1.0.154"
 testcontainers-modules = { version = "0.15.0", features = ["postgres"] }
